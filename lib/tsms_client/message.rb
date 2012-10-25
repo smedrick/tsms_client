@@ -1,5 +1,5 @@
 module TSMS
   class Message
-    NEW_URI = '/messages/new'
+    include Base
   end
 end

@@ -6,7 +6,7 @@ describe TSMS::Message do
 
     end
     it 'should create appropriate accessors' do
-      m = TSMS::Message.new
+      #m = TSMS::Message.new
     end
   end
 
