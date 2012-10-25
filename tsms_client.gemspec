@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.description = %q{A reference implementation, written in Ruby, to interact with GovDelivery's TSMS API.}
 
   #s.add_runtime_dependency "foo_gem"
+  s.add_runtime_dependency "faraday"
   s.add_development_dependency "rspec"
 
   s.files       = %w{
