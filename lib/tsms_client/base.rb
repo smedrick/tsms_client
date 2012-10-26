@@ -2,34 +2,60 @@ module TSMS
   module Base
     def self.included(base)
       base.send(:include, TSMS::Util::HalLinkParser)
+      base.extend(ClassMethods)
       base.send(:include, InstanceMethods)
     end
 
     attr_accessor :client, :href
 
+    module ClassMethods
+      def readonly_attributes(*attrs)
+        @readonly_attributes ||= [:created_at, :updated_at]
+        @readonly_attributes.concat(attrs) if attrs.any?
+        @readonly_attributes
+      end
+
+      def methods_generated? # :nodoc:
+        @methods_generated ||= false
+      end
+    end
+
     module InstanceMethods
       def initialize(client, href)
         self.client = client
         self.href = href
-        set_up_properties_from(href)
+        @attributes = {}
+        setup_properties_from(self.client.get(href))
       end
 
-      def set_up_properties_from(href)
-        attrs = self.client.get(href)
-        metaclass = class << self;
-          self;
+      def setup_properties_from(hash)
+        setup_accessors(hash) unless self.class.methods_generated?
+        parse_links(hash.delete('_links'))
+        hash.each do |property, value|
+          @attributes[property.to_sym] = value
         end
-        setup_associations(hash.delete('_links'), metaclass)
-        hash.each do |property, v|
-          if self.respond_to?(:"#{property}=")
-            self.send(:"#{property}=", v)
-          else
-            metaclass.send :define_method, property.to_sym, &lambda { v }
-            if [true, false].include?(v)
-              metaclass.send :define_method, :"#{property}?", &lambda { v }
+
+      end
+
+      def setup_accessors(hash)
+        @attribute_methods_mutex = Mutex.new
+        @attribute_methods_mutex.synchronize do
+          hash.reject { |k, v| k=~/^_/ }.each do |property, value|
+            unless self.respond_to?(:"#{property}=")
+              self.class.send :define_method, :"#{property}=", &lambda { |v| @attributes[value] = v }
+              self.class.send :define_method, property.to_sym, &lambda { @attributes[value] }
+              self.class.send :define_method, :"#{property}?", &lambda { @attributes[value] } if [true, false].include?(value)
             end
           end
+          setup_subresources(hash['_links'])
+          self.class.instance_variable_set('@methods_generated', true)
         end
+      end
+
+      def to_json
+        hash = @attributes.clone
+        self.class.readonly_attributes.each { |r| hash.delete(r) }
+        hash
       end
 
       def to_s

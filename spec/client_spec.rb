@@ -1,16 +1,4 @@
 require 'spec_helper'
-
-class TSMS::Horse
-  def initialize(client, href)
-  end
-
-end
-
-class TSMS::Rabbits
-  def initialize(client, href)
-  end
-end
-
 describe TSMS::Client do
   context "creating a new client" do
     before do

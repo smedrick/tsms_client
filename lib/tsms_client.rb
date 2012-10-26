@@ -10,4 +10,5 @@ require 'tsms_client/connection'
 require 'tsms_client/client'
 
 require 'tsms_client/base'
+require 'tsms_client/instance_resource'
 require 'tsms_client/message'

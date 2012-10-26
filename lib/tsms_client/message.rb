@@ -1,5 +1,5 @@
 module TSMS
   class Message
-    include Base
+    include InstanceResource
   end
 end
