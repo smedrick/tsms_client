@@ -1,6 +1,6 @@
 class TSMS::Client
   include TSMS::Util::HalLinkParser
-  attr_accessor :connection
+  attr_accessor :connection, :href
   DEFAULT_ENDPOINT = 'http://localhost:3000'
 
   def initialize(username, password, api_root = DEFAULT_ENDPOINT)
@@ -23,15 +23,19 @@ class TSMS::Client
   end
 
   def post(obj)
-    raw_connection.post do |post|
-      req.url = DEFAULT_ENDPOINT + href
+    raw_connection.post do |req|
+      req.url DEFAULT_ENDPOINT + obj.href
       req.headers['Content-Type'] = 'application/json'
-      req.body = self.to_json
+      req.body = obj.to_json
     end
   end
 
   def raw_connection
     connection.connection
+  end
+
+  def client
+    self
   end
 
 end

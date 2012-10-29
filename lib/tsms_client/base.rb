@@ -25,7 +25,7 @@ module TSMS
         self.client = client
         self.href = href
         @attributes = {}
-        setup_properties_from(self.client.get(href))
+        setup_properties_from(self.client.get(href)) if href
       end
 
       def setup_properties_from(hash)
@@ -38,13 +38,14 @@ module TSMS
       end
 
       def setup_accessors(hash)
+        #still kind of janky
         @attribute_methods_mutex = Mutex.new
         @attribute_methods_mutex.synchronize do
           hash.reject { |k, v| k=~/^_/ }.each do |property, value|
             unless self.respond_to?(:"#{property}=")
-              self.class.send :define_method, :"#{property}=", &lambda { |v| @attributes[value] = v }
-              self.class.send :define_method, property.to_sym, &lambda { @attributes[value] }
-              self.class.send :define_method, :"#{property}?", &lambda { @attributes[value] } if [true, false].include?(value)
+              self.class.send :define_method, :"#{property}=", &lambda { |v| @attributes[property.to_sym] = v }
+              self.class.send :define_method, property.to_sym, &lambda { @attributes[property.to_sym] }
+              self.class.send :define_method, :"#{property}?", &lambda { @attributes[property.to_sym] } if [true, false].include?(value)
             end
           end
           setup_subresources(hash['_links'])
@@ -59,7 +60,7 @@ module TSMS
       end
 
       def to_s
-        "<#{self.class.inspect} href=#{self.href}>"
+        "<#{self.class.inspect} href=#{self.href} attributes=#{@attributes.inspect}>"
       end
     end
   end

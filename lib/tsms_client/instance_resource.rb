@@ -12,7 +12,13 @@ module TSMS::InstanceResource
 
     def post
       response = client.post(self)
-      setup_properties_from(response.body)
+      if response.status == 201
+        setup_properties_from(response.body)
+      else
+        #raise ""
+      end
+
     end
+
   end
 end
