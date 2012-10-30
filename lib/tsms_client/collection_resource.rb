@@ -24,7 +24,6 @@ module TSMS::CollectionResource
       links = LinkHeader.parse(response.headers['link']).to_a.collect do |a|
         {a[1][0].last => a[0]}
       end
-      puts links.inspect
       parse_links(links)
       self
     end

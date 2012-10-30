@@ -117,6 +117,7 @@ module TSMS::InstanceResource
           @attributes[property.to_sym] = value
         end
       end
+      self.errors = hash['errors']
       parse_links(hash['_links'])
     end
 
