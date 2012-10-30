@@ -13,20 +13,20 @@ class TSMS::Client
   end
 
   def discover!
-    services = get('/')
+    services = get('/').body
     setup_subresources(services['_links'])
     parse_links(services['_links'])
   end
 
   def get(href)
-    raw_connection.get(href).body
+    raw_connection.get(href)
   end
 
   def post(obj)
     raw_connection.post do |req|
       req.url DEFAULT_ENDPOINT + obj.href
       req.headers['Content-Type'] = 'application/json'
-      req.body = obj.to_json
+      req.body = obj.to_json(true)
     end
   end
 

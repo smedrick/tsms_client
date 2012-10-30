@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     tsms_client (0.0.1)
-      activesupport (~> 3.2)
+      activesupport
       faraday
       faraday_middleware
 

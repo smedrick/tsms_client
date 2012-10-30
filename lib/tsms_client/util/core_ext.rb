@@ -1,0 +1,23 @@
+require 'active_support/inflector'
+
+module TSMS::CoreExt
+  def demodulize(path)
+    ActiveSupport::Inflector.demodulize(path)
+  end
+
+  def singularize(str)
+    ActiveSupport::Inflector.singularize(str)
+  end
+
+  def pluralize(str)
+    ActiveSupport::Inflector.pluralize(str)
+  end
+
+  def tsmsify(klassname)
+    ActiveSupport::Inflector.underscore(demodulize(klassname))
+  end
+
+  def instance_class(klass)
+    ActiveSupport::Inflector.constantize(singularize(klass.to_s))
+  end
+end
