@@ -4,6 +4,7 @@ end
 require 'active_support'
 require 'tsms_client/version'
 require 'faraday'
+require 'link_header'
 require 'faraday_middleware'
 require 'tsms_client/util/hal_link_parser'
 require 'tsms_client/util/core_ext'

@@ -14,7 +14,6 @@ class TSMS::Client
 
   def discover!
     services = get('/').body
-    setup_subresources(services['_links'])
     parse_links(services['_links'])
   end
 
