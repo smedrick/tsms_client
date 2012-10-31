@@ -1,6 +1,10 @@
 module TSMS::Util
   module HalLinkParser
 
+    #def self.included(base)
+    #  base.send(:include, TSMS::CoreExt)
+    #end
+
     def parse_links(_links)
       @resources = {}
       return if _links.nil?
@@ -22,16 +26,18 @@ module TSMS::Util
 
     def parse_link(link)
       link.each do |rel, href|
-        begin
-          if rel == 'self'
-            self.href = href
-          else
-            klass = (::TSMS.const_get(rel.capitalize) rescue self.class)
+        if rel == 'self'
+          self.href = href
+        else
+          klass = ::TSMS.const_get(classify(rel)) rescue nil
+          klass = self.class if ['first', 'prev', 'next', 'last'].include?(rel)
+          if klass
             subresources[rel] = klass.new(self.client, href)
             setup_subresource(link)
+          else
+            puts "Don't know what to do with link rel '#{rel}' for class #{self.class.to_s}!"
           end
-        rescue NameError => e
-          puts "Don't know what to do with link rel '#{rel}' for class #{self.class.to_s}!: #{e.message}"
+
         end
       end
     end

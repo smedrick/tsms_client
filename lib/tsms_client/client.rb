@@ -1,5 +1,7 @@
 class TSMS::Client
   include TSMS::Util::HalLinkParser
+  include TSMS::CoreExt
+
   attr_accessor :connection, :href
   DEFAULT_ENDPOINT = 'http://localhost:3000'
 

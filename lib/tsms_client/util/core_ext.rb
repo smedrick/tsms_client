@@ -5,9 +5,13 @@ module TSMS::CoreExt
     ActiveSupport::Inflector.demodulize(path)
   end
 
-  def singularize(str)
-    ActiveSupport::Inflector.singularize(str)
+  def classify(str)
+    ActiveSupport::Inflector.camelize(str)
   end
+
+  def singularize(str)
+      ActiveSupport::Inflector.singularize(str)
+    end
 
   def pluralize(str)
     ActiveSupport::Inflector.pluralize(str)
