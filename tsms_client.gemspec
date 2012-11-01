@@ -12,6 +12,10 @@ Gem::Specification.new do |s|
   s.summary     = %q{A ruby client to interact with the GovDelivery TSMS REST API.}
   s.description = %q{A reference implementation, written in Ruby, to interact with GovDelivery's TSMS API.}
 
+  if RUBY_VERSION < "1.9"
+    s.add_runtime_dependency "json" # this is part of 1.9's stdlib
+  end
+  
   s.add_runtime_dependency "faraday"
   s.add_runtime_dependency "faraday_middleware"
   s.add_runtime_dependency "activesupport"
