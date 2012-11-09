@@ -18,4 +18,6 @@ require 'tsms_client/recipients'
 require 'tsms_client/recipient'
 require 'tsms_client/messages'
 require 'tsms_client/message'
-
+require 'tsms_client/messages'
+require 'tsms_client/inbound_message'
+require 'tsms_client/inbound_messages'
