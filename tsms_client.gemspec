@@ -4,7 +4,7 @@ require "tsms_client/version"
 
 Gem::Specification.new do |s|
   s.name        = "tsms_client"
-  s.version     = TsmsClient::VERSION
+  s.version     = TSMS::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["GovDelivery"]
   s.email       = ["support@govdelivery.com"]
