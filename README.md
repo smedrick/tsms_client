@@ -44,3 +44,16 @@ message.recipients.build #no phone???
 => <TSMS::Message href=/messages/87 attributes={...}>
 
 ```
+
+# Logging
+Any instance of a [Logger](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html "Ruby Logger")-like class can be passed in to the client; incoming and outgoing
+request information will then be logged to that instance. 
+
+The example below configures `TSMS::Client` to log to the terminal attached to `/dev/ttys000`. 
+
+``` ruby
+logger = Logger.new(File.open("/dev/ttys000", 'w'))
+client = TSMS::Client.new('username', 'password', 'https://endpoint.com', logger)
+
+```
+

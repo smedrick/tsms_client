@@ -4,14 +4,14 @@ class TSMS::Client
 
   attr_accessor :connection, :href
 
-  def initialize(username, password, api_root = 'http://localhost:3000')
+  def initialize(username, password, api_root = 'http://localhost:3000', logger=nil)
     @api_root = api_root
-    connect!(username, password)
+    connect!(username, password, logger)
     discover!
   end
 
-  def connect!(username, password)
-    self.connection = TSMS::Connection.new(:username => username, :password => password, :api_root => @api_root)
+  def connect!(username, password, logger)
+    self.connection = TSMS::Connection.new(:username => username, :password => password, :api_root => @api_root, :logger => logger)
   end
 
   def discover!
