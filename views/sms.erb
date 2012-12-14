@@ -1,0 +1,28 @@
+        <h1>Send SMS</h1>
+		<form action="/sms" method="post">
+			<label for="username">Username</label>
+			<input type="text" id="username" name="username" value="product@govdelivery.com" /><br />
+			
+			<label for="username">Password</label>
+			<input type="text" id="password" name="password" value="" /><br />
+			
+			<label for="username">Server</label>
+			<input type="text" id="server" name="server" value="http://localhost:3000" /><br />
+			
+			<label for="short_body">Body</label>
+			<input type="text" id="short_body" name="short_body" value="Testssss" /><br />
+		
+			<label for="phone_number">Phone Number(s)</label>
+			<textarea id="phone_number" name="phone_number">8628497191</textarea><br />
+			<input type="submit" />  
+		</form> 
+		<% if @resp %>
+		<h2>Response</h2>
+		<div style="padding:10px;margin:20px;border:1px solid #ccc;display:block;">
+			<pre><%=@msg.inspect %></pre>
+		</div>
+		<div style="padding:10px;margin:20px;border:1px solid #ccc;display:block;">
+			<%=@errors.inspect if !@errors.nil? %>
+		</div>
+		<% end %>
+

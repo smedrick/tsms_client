@@ -1,0 +1,6 @@
+<tr>
+	<td><%=message.short_body.nil? ? message.url : message.short_body %></td>
+	<td><%=DateTime.strptime(message.created_at, "%Y-%m-%dT%H:%M:%S%Z").strftime("%m/%d/%Y %I:%M%p") if !message.created_at.nil? %></td>
+	<td><%=DateTime.strptime(message.completed_at, "%Y-%m-%dT%H:%M:%S%Z").strftime("%m/%d/%Y %I:%M%p") if !message.completed_at.nil? %></td>
+	<td><a href="<%=baseurl+message.href %>"><%=baseurl+message.href %></a></td>
+</tr>

@@ -1,0 +1,24 @@
+
+		<h1>View Messages</h1>
+		<form action="/messages" method="post">
+			<label for="username">Username</label>
+			<input type="text" id="username" name="username" value="product@govdelivery.com" /><br />
+			
+			<label for="username">Password</label>
+			<input type="text" id="password" name="password" value="" /><br />
+			
+			<label for="username">Server</label>
+			<input type="text" id="server" name="server" value="http://localhost:3000" /><br />
+			<input type="submit" />  
+		</form>
+		<% if !@msgs.nil? %>
+		<h2>Response</h2>
+		<div style="padding:10px;margin:20px;border:1px solid #ccc;display:block;">
+			<table>
+				<tr><th style="width:300px;">Body</th><th style="width:200px;">Created at</th><th style="width:200px;">Completed at</th><th style="width:200px;">Link</th></tr>
+				<% @msgs.collection.each do |msg| %>
+					<%= erb(:message, :layout => false, :locals => {:message => msg, :baseurl => @baseurl}) %>
+				<% end %>
+			</table>
+		</div>
+		<% end %>
